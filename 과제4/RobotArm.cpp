@@ -1,5 +1,5 @@
 ﻿/* 1871038 이승연 */
-/* Extra credit 작성했습니다. */
+/* HW4 */
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -48,6 +48,7 @@ GLfloat FingerJoints[] = { 0.5f, 0.5f, 0.5f };
 
 // USER INTERFACE GLOBALS
 int LeftButtonDown = 0;    // MOUSE STUFF
+int RightButtonDown = 0; // HW4
 int RobotControl = 0;
 int SpaceDown = 0; // SPACE BAR
 
@@ -325,6 +326,17 @@ void processInput(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 	else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	// HW4
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(FORWARD, deltaTime * 5.0f);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(BACKWARD, deltaTime * 5.0f);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(LEFT, deltaTime * 5.0f);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(RIGHT, deltaTime * 5.0f);
+
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -392,6 +404,12 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		}
 	}
 
+	// HW4
+	if (RightButtonDown) 
+	{
+		camera.ProcessMouseMovement(xoffset * 500, yoffset * 500);
+	}
+
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
@@ -404,6 +422,17 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	{
 		LeftButtonDown = 0;
 	}
+
+	// HW4
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+	{
+		RightButtonDown = 1;
+	}
+	else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
+	{
+		RightButtonDown = 0;
+	}
+
 }
 
 class Primitive {
